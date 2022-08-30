@@ -19,5 +19,5 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('website.urls')), #sends the request to the website application's url.py
-
+    path('customer/', include('customer.urls')),
 ]
