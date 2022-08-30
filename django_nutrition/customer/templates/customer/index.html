@@ -2,9 +2,17 @@
 {% block content %}
     <h1>Made it!</h1>
     {% for plan in plans %}
-        {{ plan.title  }}
-        {{ plan.body }}
-        {{ plan.price }}
+
+        <article class="media content-section">
+            <div class="media-body">
+              <div class="article-metadata">
+                <a class="mr-2" href="#">-></a>
+                <small class="text-muted">{{ plan.price }}</small>
+              </div>
+              <h2><a class="article-title" href="#">{{ plan.title  }}</a></h2>
+              <p class="article-content">{{ plan.body }} {{ plan.price }}</p>
+            </div>
+          </article>
 
     {% endfor%}
 {% endblock content %}

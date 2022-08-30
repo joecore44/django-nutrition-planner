@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'website.apps.WebsiteConfig',
-    'customer.apps.CustomerConfig'
+    'customer.apps.CustomerConfig',
+    'trainer.apps.TrainerConfig'
 ]
 
 MIDDLEWARE = [
