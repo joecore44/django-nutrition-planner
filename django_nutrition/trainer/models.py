@@ -6,8 +6,6 @@ class TrainerProfile(models.Model):
         on_delete=models.CASCADE)
     image = models.ImageField(default='default.jpg',
         upload_to='trainer_media/profile')
-    first_name = models.CharField(max_length=10)
-    last_name = models.CharField(max_length=10)
     company_name = models.CharField(max_length=100)
     phone_number = models.CharField(max_length=10)
     website = models.CharField(max_length=24)
@@ -57,6 +55,21 @@ class Food(models.Model):
     carbs = models.FloatField()
     fat = models.FloatField()
     calories = models.FloatField()
+
+    def __str__(self):
+            return self.title
+
+class BillingPlan(models.Model):
+    trainer = models.ForeignKey(TrainerProfile, 
+        on_delete=models.CASCADE)
+    title = models.CharField(max_length=36)
+    price = models.FloatField()
+    is_active = models.BooleanField(default=True)
+    description = models.TextField()
+    includes = models.TextField()
+    how_it_works = models.TextField()
+    image = models.ImageField(default='default.jpg',
+        upload_to='trainer_media/billing')
 
     def __str__(self):
             return self.title

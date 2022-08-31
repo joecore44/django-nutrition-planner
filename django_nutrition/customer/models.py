@@ -1,7 +1,8 @@
 from django.db import models
-from unittest.util import _MAX_LENGTH
 from django.db import models
 from django.contrib.auth.models import User
+from trainer.models import BillingPlan
+from django.utils import timezone
 
 class CustomerProfile(models.Model):
     user = models.OneToOneField(User, 
@@ -14,3 +15,15 @@ class CustomerProfile(models.Model):
 
     def __str__(self):
         return self.first_name + ' ' + self.last_name
+
+class CustomerSubscription(models.Model):
+    CustomerProfile = models.ForeignKey(CustomerProfile, 
+        on_delete=models.CASCADE)
+    billing_date = models.DateTimeField(default=timezone.now)
+    is_active = models.BooleanField()
+    billing_plan_id = models.OneToOneField(BillingPlan, 
+        on_delete=models.CASCADE)
+
+
+    def __str__(self):
+        return 'Subscription ' + str(self.billing_date)
