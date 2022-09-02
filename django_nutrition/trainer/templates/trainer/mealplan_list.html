@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h1>Made it from the website application!</h1>
+    {% for plan in plans %}
+        <article class="media content-section">
+            <img class="rounded-circle article-img" src="">
+            <div class="media-body">
+              <div class="article-metadata">
+                <a class="mr-2" href="#"> {{ plan.diet_type }}</a>
+                <small class="text-muted">{{ plan.meal_type }}</small>
+              </div>
+              <h2><a class="article-title" href="{% url 'meal-plan' plan.id %}">{{ plan.title  }}</a></h2>
+              <p class="article-content">{{ plan.description }}</p>
+            </div>
+          </article>
+
+    {% endfor%}
+{% endblock content %}

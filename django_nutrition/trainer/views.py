@@ -1,8 +1,11 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
+from django.views.generic import ListView, DetailView
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
-from .forms import TrainerRegisterForm
+from django.contrib.auth.decorators import login_required
+from .forms import TrainerRegisterForm, TrainerUpdateForm, TrainerProfileUpdateForm
+from .models import MealPlan
 
 plans = [
     {
@@ -34,8 +37,40 @@ def register(request):
             form.save()
             username = form.cleaned_data.get('username')
             messages.success(request, f'Account created {username}!')
-            return redirect('website-home')
+            return redirect('login')
     else:
         form = TrainerRegisterForm()
     return render(request, 'trainer/register.html', {'form': form})
+
+@login_required
+def profile(request):
+    if request.method == 'POST':
+        u_form = TrainerUpdateForm(request.POST,
+                                    instance=request.user)
+        p_form  = TrainerProfileUpdateForm(request.POST,
+                                    instance=request.user.trainerprofile)
+        if u_form.is_valid() and p_form.is_valid():
+            u_form.save()
+            p_form.save()
+            messages.success(request, f'Account Updated!')
+            return redirect('profile')
+    else:
+        u_form = TrainerUpdateForm(instance=request.user)
+        p_form  = TrainerProfileUpdateForm(instance=request.user.trainerprofile)
+    context = {
+        'u_form': u_form,
+        'p_form': p_form
+    }
+
+    return render(request, 'trainer/profile.html', context)
+
+class MealPlanListView(ListView):
+    model = MealPlan
+    context = {
+        'plans': MealPlan.objects.all()
+    }
+    context_object_name = 'plans'
+
+class MealPlanDetailView(DetailView):
+    model = MealPlan
 

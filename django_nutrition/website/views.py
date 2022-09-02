@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.contrib.auth.decorators import login_required
 
 plans = [
     {
@@ -23,5 +24,6 @@ def home(request):
     }
     return render(request, 'website/index.html', context)
 
-def about(request):
-    return HttpResponse('<h1>ABOUT</h1>')
+@login_required
+def profile(request):
+    return render(request, 'website/profile.html')

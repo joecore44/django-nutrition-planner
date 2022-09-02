@@ -1,1 +1,10 @@
-SUP YO
+{% extends 'base.html' %}
+{% block content %}
+    <h1>Made it from the website application!</h1>
+    {% for plan in plans %}
+        {{ plan.title  }}
+        {{ plan.body }}
+        {{ plan.price }}
+
+    {% endfor%}
+{% endblock content %}
