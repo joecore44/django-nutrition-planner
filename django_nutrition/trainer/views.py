@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, CreateView
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -74,3 +74,11 @@ class MealPlanListView(ListView):
 class MealPlanDetailView(DetailView):
     model = MealPlan
 
+class MealPlanCreateView(CreateView):
+    model = MealPlan
+    fields = ['image', 'title', 'description', 'free_plan',
+     'diet_type', 'meal_type']
+
+    def form_valid(self, form):
+        form.instance.trainer = self.request.user.trainerprofile
+        return super().form_valid(form)

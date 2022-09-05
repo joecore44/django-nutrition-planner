@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from PIL import Image
+from django.urls import reverse
 
 class TrainerProfile(models.Model):
     user = models.OneToOneField(User, 
@@ -35,6 +36,9 @@ class MealPlan(models.Model):
     meal_type = models.CharField(max_length=20)
     image = models.ImageField(default='default.jpg',
         upload_to='trainer_media/meals')
+
+    def get_absolute_url(self):
+        return reverse('meal-plan', kwargs={'pk': self.pk})
 
     def __str__(self):
             return self.title
