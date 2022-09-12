@@ -1,7 +1,10 @@
+from tkinter import EW
 from django.db import models
 from django.contrib.auth.models import User
 from PIL import Image
 from django.urls import reverse
+
+
 
 class TrainerProfile(models.Model):
     user = models.OneToOneField(User, 
@@ -53,6 +56,9 @@ class Meal(models.Model):
     image = models.ImageField(default='default.jpg',
         upload_to='trainer_media/meals')
 
+    def get_absolute_url(self):
+        return reverse('meal', kwargs={'pk': self.pk})
+
     def __str__(self):
             return self.title
 
@@ -63,12 +69,14 @@ class Food(models.Model):
     meal = models.ForeignKey(Meal, null=True, on_delete=models.SET_NULL)
     title = models.CharField(max_length=36)
     description = models.TextField()
-    image = models.ImageField(default='default.jpg',
-        upload_to='trainer_media/meals/food')
+    image = models.CharField(max_length=250)
     protein = models.FloatField()
     carbs = models.FloatField()
     fat = models.FloatField()
     calories = models.FloatField()
+
+    def get_absolute_url(self):
+        return reverse('food', kwargs={'pk': self.pk})
 
     def __str__(self):
             return self.title

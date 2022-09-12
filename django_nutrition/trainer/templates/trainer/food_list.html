@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h1>Made it from the website application!</h1>
+    {% for meal in meals %}
+        <article class="media content-section">
+            <img class="rounded-circle article-img" src="">
+            <div class="media-body">
+              <div class="article-metadata">
+                <a class="mr-2" href="#"> </a>
+                <small class="text-muted"></small>
+              </div>
+              <h2><a class="article-title" href="{% url 'meal' meal.id %}">{{ meal.title  }}</a></h2>
+              <p class="article-content">{{ meal.description }}</p>
+            </div>
+          </article>
+
+    {% endfor%}
+{% endblock content %}

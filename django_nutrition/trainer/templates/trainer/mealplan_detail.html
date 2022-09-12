@@ -16,5 +16,7 @@
       <h2 class="article-title">{{ object.title }} {{ user.first_name }}</h2>
       <p class="article-content">{{ object.description }}</p>
     </div>
+    <button type="button" class="btn btn-outline-secondary"><a href="{% url 'meal-create' %}">Add Meals to Plan</a></button>
+    <br /><br />
   </article>
 {% endblock content %}

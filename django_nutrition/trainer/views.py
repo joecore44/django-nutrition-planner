@@ -5,24 +5,12 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .forms import TrainerRegisterForm, TrainerUpdateForm, TrainerProfileUpdateForm
-from .models import MealPlan
+from .models import MealPlan, Meal, Food
+import requests
+from py_edamam import Edamam
+e = Edamam(nutrition_appid='e254a66f',
+           nutrition_appkey='cc67b695fa3251c78017fbeac67369e5')        
 
-plans = [
-    {
-        'title': 'Customer Plan 1',
-        'body': 'Body 1',
-        'price': '$29.99'
-    }, {
-        'title': 'Customer Plan 2',
-        'body': 'Body 2',
-        'price': '$39.99'
-    }, 
-    {
-        'title': 'Customer Plan 3',
-        'body': 'Body 3',
-        'price': '$49.99'
-    }
-]
 def home(request):
     context = {
         'plans': plans,
@@ -82,3 +70,86 @@ class MealPlanCreateView(CreateView):
     def form_valid(self, form):
         form.instance.trainer = self.request.user.trainerprofile
         return super().form_valid(form)
+
+class MealListView(ListView):
+    model = Meal
+    context = {
+        'meals': Meal.objects.all()
+    }
+    context_object_name = 'meals'
+
+class MealDetailView(DetailView):
+    model = Meal
+
+class MealCreateView(CreateView):
+    model = Meal
+    fields = ['meal_plan', 'image', 'title', 'description']
+
+    def form_valid(self, form):
+        form.instance.trainer = self.request.user.trainerprofile
+        return super().form_valid(form)
+
+class FoodListView(ListView):
+    model = Food
+    context = {
+        'foods': Food.objects.all()
+    }
+    context_object_name = 'foods'
+
+class FoodDetailView(DetailView):
+    model = Food
+
+class FoodCreateView(CreateView):
+    model = Food
+    fields = ['meal', 'image', 'title', 'description', 'protein', 'carbs', 'fat', 'calories']
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+       
+        return context
+
+    def form_valid(self, form):
+        form.instance.trainer = self.request.user.trainerprofile
+        return super().form_valid(form)
+
+def get_foods(request):
+        if 'name' in request.GET:
+            name = request.GET['name']
+            url = "https://edamam-food-and-grocery-database.p.rapidapi.com/parser"
+
+            querystring = {"ingr":name}
+
+            headers = {
+                "X-RapidAPI-Key": "ad71cdf068msh5fad48d57871f97p18478ajsna0e3134a6355",
+                "X-RapidAPI-Host": "edamam-food-and-grocery-database.p.rapidapi.com"
+            }
+
+            response = requests.request("GET", url, headers=headers, params=querystring)
+            data = response.json()
+            foods = data['hints']
+            food_list = []
+            for food in foods:
+                if 'image' in food['food']:
+                    image = food['food']['image']
+                else:
+                    image = 'https://www.edamam.com/food-img/093/093749f4c93e448119fc81976d2c3067.jpg'
+                items = {
+                'food_id' : food['food']['foodId'],   
+                'kcal' : int(food['food']['nutrients']['ENERC_KCAL']),
+                'protein': int(food['food']['nutrients']['PROCNT']),
+                'carbs': int(food['food']['nutrients']['CHOCDF']),
+                'fat': int(food['food']['nutrients']['FAT']),
+                'category': food['food']['category'],
+                'title': food['food']['label'],
+                'image': image
+                }
+                food_list.append(items)
+            
+
+            return render(request, 'trainer/food.html', {'food_data': food_list})
+        else:
+            return render(request, 'trainer/food.html')
+ 
+
+
+    

@@ -1,0 +1,59 @@
+{% extends 'base.html'%}
+{% load static %}
+{% block content %} 
+    <div class = "container">
+      <br>
+      <h2 class = "text-center">ADD YOUR FOODS</h2> 
+      <br>
+      <form method="GET">
+        <input type = "text" name = "name" placeholder="Search..." class = "text-center">
+        <button type = "submit" class = "btn-danger btn-sm">SEARCH FOODS</button>
+      </form> 
+    </div>  
+    <br><br>
+    <div class="row">
+      {% for food in food_data %}
+        <div class="col-md-4">
+          <div class="card">
+            <img class="card-img-top" src="{{ food.image}}" alt="Card image cap">
+            <div class="card-body text-center">
+              <p class="card-title"><strong>{{ food.title }}</strong></p>
+              <p class="card-title">Cals: {{ food.kcal }}</p>
+              <p class="card-title">Protein: {{ food.protein }}</p>
+              <p class="card-title">Carbs: {{ food.carbs }}</p>
+              <p class="card-title">Fat: {{ food.fat }}</p>
+              <hr>
+              <p class="card-text">{{ food.id }}</p>
+              <a href="/foods/{{food.id}}"
+              ><input
+                type="submit"
+                value="Learn More"
+                class="btn btn-danger btn-sm"
+                type="button"
+            /></a>
+            </div>
+          </div>
+          <br><br><br>
+        </div>
+      {% endfor %}
+    </div>
+  
+{% endblock %}
+
+<!--
+[{'food_id': 'food_boq91pbbhklr6sb0d9sbybzgklkm',
+ 'kcal': 254.0,
+  'protein': 17.17,
+   'carbs': 0.0,
+    'fat': 20.0,
+     'category': 'Generic foods',
+      'title': 'Hamburger'},
+       {'food_id': 'food_boq91pbbhklr6sb0d9sbybzgklkm',
+        'kcal': 254.0,
+         'protein': 17.17,
+          'carbs': 0.0,
+           'fat': 20.0,
+            'category': 'Generic foods',
+             'title': 'Hamburger Meat'},
+              {'food_id': 'food_be1uum5brvrzogahb38esa62om6n', 'kcal': 204.44617246898605, 'protein': 12.259997277227374, 'carbs': 8.888616611802698, 'fat': 13.187459638668509, 'category': 'Generic meals', 'title': 'Hamburgers'}, {'food_id': 'food_aaxvbltb45gvkhaaptn2bafhcubl', 'kcal': 0.0, 'protein': 0.0, 'carbs': 0.0, 'fat': 0.0, 'category': 'Packaged foods', 'title': 'Hamburger Seasoning, Hamburger'}, {'food_id': 'food_ajx6giebdvhbnibmeb1p4bengpwj', 'kcal': 218.0, 'protein': 10.880000114440918, 'carbs': 22.450000762939453, 'fat': 9.520000457763672, 'category': 'Packaged foods', 'title': 'Hamburger Original Pizza, Hamburger'}, {'food_id': 'food_axvtyr9anluzygaadzh7ib05jsdg', 'kcal': 264.0, 'protein': 12.92, 'carbs': 30.28, 'fat': 10.09, 'category': 'Generic foods', 'title': "McDonald's, Hamburger"}, {'food_id': 'food_biei7e8ap2juekb162j79bu40fsu', 'kcal': 278.0, 'protein': 9.87, 'carbs': 50.15, 'fat': 3.76, 'category': 'Generic foods', 'title': 'Hamburger Bun'}, {'food_id': 'food_bp9xirgaea1wmyahilwu2buq4us2', 'kcal': 258.16736750598346, 'protein': 14.602236833864923, 'carbs': 9.11631336526096, 'fat': 17.729801230305352, 'category': 'Generic meals', 'title': 'Stuffed Hamburgers'}, {'food_id': 'food_bktkikwa18kad9a8fyv0iambia3y', 'kcal': 219.84808531440726, 'protein': 14.999448531730328, 'carbs': 4.040739309980819, 'fat': 15.630761084099005, 'category': 'Generic meals', 'title': 'Hamburger Patties'}, {'food_id': 'food_a4jv75fbrrnoecb2iqfppacy1n8y', 'kcal': 203.71105169072845, 'protein': 12.847930383820168, 'carbs': 7.873470076690428, 'fat': 13.151870937185587, 'category': 'Generic meals', 'title': 'Grilled Hamburgers'}, {'food_id': 'food_blhnc6ja2z4felbu2kmxnb3paozx', 'kcal': 207.93032380812858, 'protein': 10.762695506445613, 'carbs': 15.7585722436641, 'fat': 11.157341047411283, 'category': 'Generic meals', 'title': 'Barbecued Hamburgers'}, {'food_id': 'food_atrzmt8aa0kehqalxo67salcv61g', 'kcal': 282.1916955966433, 'protein': 4.2328754339496495, 'carbs': 50.794505207395794, 'fat': 4.2328754339496495, 'category': 'Packaged foods', 'title': 'Hamburger'}, {'food_id': 'food_by65tgybfp8bd3by8zo3vaetkujo', 'kcal': 279.0, 'protein': 9.300000190734863, 'carbs': 53.4900016784668, 'fat': 3.490000009536743, 'category': 'Packaged foods', 'title': 'Hamburger Classic Buns, Hamburger'}, {'food_id': 'food_bthkb44ahpokc0ab8ktksaw7rz1v', 'kcal': 237.53174649577176, 'protein': 10.835340425330484, 'carbs': 24.57106833226375, 'fat': 10.573158625950684, 'category': 'Generic meals', 'title': 'Mini Hamburgers'}, {'food_id': 'food_a6qj8tlaljh4rwb51xi2waoxtcml', 'kcal': 280.0, 'protein': 8.0, 'carbs': 52.0, 'fat': 3.0, 'category': 'Packaged foods', 'title': 'Hamburger Classic Buns, Hamburger'}, {'food_id': 'food_a3b8zcjby77i72a6nle6ebgw4qv6', 'kcal': 219.3548387096774, 'protein': 8.387096774193548, 'carbs': 25.161290322580644, 'fat': 10.32258064516129, 'category': 'Fast foods', 'title': 'Hamburger'}, {'food_id': 'food_a36v6pnarhhq2eacgigcta0p55wl', 'kcal': 251.74825174825173, 'protein': 9.79020979020979, 'carbs': 27.27272727272727, 'fat': 11.188811188811188, 'category': 'Fast foods', 'title': 'Hamburger'}, {'food_id': 'food_bq71zb9a7c4ra5adlq6kka8to6iu', 'kcal': 245.5357142857143, 'protein': 11.607142857142858, 'carbs': 14.285714285714286, 'fat': 15.178571428571429, 'category': 'Fast foods', 'title': 'Hamburger'}, {'food_id': 'food_b4446hhb24oh4qb21v73xb517n3f', 'kcal': 266.66666666666663, 'protein': 13.333333333333332, 'carbs': 30.476190476190474, 'fat': 10.476190476190476, 'category': 'Fast foods', 'title': 'Hamburger'}, {'food_id': 'food_ax923hoafejzjab3hy8mwb78o5ix', 'kcal': 181.10236220472441, 'protein': 9.84251968503937, 'carbs': 17.716535433070867, 'fat': 8.661417322834646, 'category': 'Fast foods', 'title': 'Hamburger'}, {'food_id': 'food_bejhclraadb30qblcvhv4bes7e4j', 'kcal': 514.7058823529412, 'protein': 44.117647058823536, 'carbs': 16.176470588235297, 'fat': 30.88235294117647, 'category': 'Fast foods', 'title': 'Hamburger'}]
+-->

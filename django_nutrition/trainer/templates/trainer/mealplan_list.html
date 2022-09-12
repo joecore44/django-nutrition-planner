@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 {% block content %}
-    <h1>Made it from the website application!</h1>
+    <h1>List of Meal Plans</h1>
+    <button type="button" class="btn btn-outline-secondary"><a href="{% url 'meal-plan-create' %}">Add New</a></button>
+    <br /><br />
     {% for plan in plans %}
         <article class="media content-section">
             <img class="rounded-circle article-img" src="">
