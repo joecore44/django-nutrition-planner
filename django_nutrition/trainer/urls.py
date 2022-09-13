@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import MealPlanListView, MealPlanDetailView, MealPlanCreateView, MealListView, MealDetailView, MealCreateView
-from .views import FoodListView, FoodDetailView, FoodCreateView
+from .views import FoodListView, FoodDetailView, FoodCreateView, CreateMeal
 from . import views
 
 urlpatterns = [
@@ -12,7 +12,8 @@ urlpatterns = [
     # Meals URLs
     path('meals', MealListView.as_view(), name='meals'),
     path('meal/<int:pk>/', MealDetailView.as_view(), name='meal'),
-    path('meal/new/', MealCreateView.as_view(), name='meal-create'),
+    #path('meal/new/', MealCreateView.as_view(), name='meal-create'),
+    path('meal/new/', views.CreateMeal, name='create-meal'),
     # Food URLs
     #path('foods', FoodListView.as_view(), name='foods'),
     #path('food/<int:pk>/',FoodDetailView.as_view(), name='food'),

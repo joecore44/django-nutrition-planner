@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
     <h1>List of Meals</h1>
-    <button type="button" class="btn btn-outline-secondary"><a href="{% url 'meal-create' %}">Add New</a></button>
+    <button type="button" class="btn btn-outline-secondary"><a href="{% url 'create-meal' %}">Add New</a></button>
     <br /><br />
     {% for meal in meals %}
         <article class="media content-section">
@@ -13,6 +13,7 @@
               </div>
               <h2><a class="article-title" href="{% url 'meal' meal.id %}">{{ meal.title  }}</a></h2>
               <p class="article-content">{{ meal.description }}</p>
+              <p class="article-content">{{ meal.meal_plan }}</p>
             </div>
           </article>
 

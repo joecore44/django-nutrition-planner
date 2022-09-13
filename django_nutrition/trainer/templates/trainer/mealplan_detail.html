@@ -16,7 +16,22 @@
       <h2 class="article-title">{{ object.title }} {{ user.first_name }}</h2>
       <p class="article-content">{{ object.description }}</p>
     </div>
-    <button type="button" class="btn btn-outline-secondary"><a href="{% url 'meal-create' %}">Add Meals to Plan</a></button>
-    <br /><br />
   </article>
+  <button type="button" class="btn btn-outline-secondary"><a href="{% url 'create-meal' %}">Add Meals to Plan</a></button>
+    <br /><br />
+    {% for meal in meals %}
+    <article class="media content-section">
+        <img class="rounded-circle article-img" src="">
+        <div class="media-body">
+          <div class="article-metadata">
+            <a class="mr-2" href="#"> </a>
+            <small class="text-muted"></small>
+          </div>
+          <h2><a class="article-title" href="{% url 'meal' meal.id %}">{{ meal.title  }}</a></h2>
+          <p class="article-content">{{ meal.description }}</p>
+          <p class="article-content">{{ meal.meal_plan }}</p>
+        </div>
+      </article>
+
+{% endfor%}
 {% endblock content %}

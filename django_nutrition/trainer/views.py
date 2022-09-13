@@ -6,10 +6,9 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .forms import TrainerRegisterForm, TrainerUpdateForm, TrainerProfileUpdateForm
 from .models import MealPlan, Meal, Food
+from django.forms import modelformset_factory
 import requests
-from py_edamam import Edamam
-e = Edamam(nutrition_appid='e254a66f',
-           nutrition_appkey='cc67b695fa3251c78017fbeac67369e5')        
+
 
 def home(request):
     context = {
@@ -59,8 +58,17 @@ class MealPlanListView(ListView):
     }
     context_object_name = 'plans'
 
+    def get_queryset(self):
+        return super(MealPlanListView, self).get_queryset().filter(trainer=self.request.user.trainerprofile)
+
 class MealPlanDetailView(DetailView):
     model = MealPlan
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(MealPlanDetailView, self).get_context_data(*args, **kwargs)
+        instance = self.get_object()
+        context['meals'] = Meal.objects.select_related().filter(meal_plan=instance)
+        return context
 
 class MealPlanCreateView(CreateView):
     model = MealPlan
@@ -81,6 +89,15 @@ class MealListView(ListView):
 class MealDetailView(DetailView):
     model = Meal
 
+def CreateMeal(request):
+
+    MealFormSet = modelformset_factory(Meal, fields=(
+        'meal_plan', 'image', 'title', 'description'
+    ))
+    form = MealFormSet(queryset=Meal.objects.none())
+    return render(request, 'trainer/meal_form.html', {'form': form})
+
+
 class MealCreateView(CreateView):
     model = Meal
     fields = ['meal_plan', 'image', 'title', 'description']
@@ -100,8 +117,10 @@ class FoodDetailView(DetailView):
     model = Food
 
 class FoodCreateView(CreateView):
+ 
     model = Food
     fields = ['meal', 'image', 'title', 'description', 'protein', 'carbs', 'fat', 'calories']
+    #success_url = '/'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -109,6 +128,7 @@ class FoodCreateView(CreateView):
         return context
 
     def form_valid(self, form):
+        form.instance.meal = 'Breakfast'
         form.instance.trainer = self.request.user.trainerprofile
         return super().form_valid(form)
 
