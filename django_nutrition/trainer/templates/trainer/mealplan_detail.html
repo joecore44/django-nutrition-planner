@@ -17,21 +17,22 @@
       <p class="article-content">{{ object.description }}</p>
     </div>
   </article>
-  <button type="button" class="btn btn-outline-secondary"><a href="{% url 'create-meal' %}">Add Meals to Plan</a></button>
+  <button type="button" class="btn btn-outline-secondary"><a href=" url 'create-meal' object.id ">Add Meal Schedule to Plan</a></button>
     <br /><br />
-    {% for meal in meals %}
-    <article class="media content-section">
-        <img class="rounded-circle article-img" src="">
-        <div class="media-body">
-          <div class="article-metadata">
-            <a class="mr-2" href="#"> </a>
-            <small class="text-muted"></small>
-          </div>
-          <h2><a class="article-title" href="{% url 'meal' meal.id %}">{{ meal.title  }}</a></h2>
-          <p class="article-content">{{ meal.description }}</p>
-          <p class="article-content">{{ meal.meal_plan }}</p>
+    <div class="row">
+    {% for day in days %}
+    <div class="col-md-3">
+      <div class="card">
+        <div class="card-body text-center">
+          <a href="{% url 'day-detail' day.id %}">
+          <p class="card-title">{{ day.day_number }}</p>
+          <p class="card-text">Thu, 18 Aug</p>
+          </a>
+          
+          
         </div>
-      </article>
-
-{% endfor%}
+      </div>
+    </div> 
+{% endfor%} 
+  </div>
 {% endblock content %}

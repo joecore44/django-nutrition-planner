@@ -46,11 +46,22 @@ class MealPlan(models.Model):
     def __str__(self):
             return self.title
 
+class PlanDay(models.Model):
+    meal_plan = models.ForeignKey(MealPlan,
+    on_delete=models.CASCADE)
+    day_number = models.IntegerField()
+    #date = models.DateTimeField(null=True)
+    def __str__(self):
+        day = 'Day ' + str(self.day_number)
+        return day
+
 class Meal(models.Model):
     # TODO figure out what to do about 
     # tying the meal to the plan and user but
     # don't make it manditory
-    meal_plan = models.ForeignKey(MealPlan, null=True, on_delete=models.SET_NULL)
+    # TODO add time to the Meal model (EX: Breakfast, Post Workout)
+    #meal_plan = models.ForeignKey(MealPlan, null=True, on_delete=models.SET_NULL)
+    plan_day = models.ForeignKey(PlanDay, null=True, on_delete=models.SET_NULL)
     title = models.CharField(max_length=36)
     description = models.TextField()
     image = models.ImageField(default='default.jpg',

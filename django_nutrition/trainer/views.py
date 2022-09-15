@@ -5,7 +5,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .forms import TrainerRegisterForm, TrainerUpdateForm, TrainerProfileUpdateForm
-from .models import MealPlan, Meal, Food
+from .models import MealPlan, PlanDay, Meal, Food
 from django.forms import modelformset_factory
 import requests
 
@@ -67,8 +67,25 @@ class MealPlanDetailView(DetailView):
     def get_context_data(self, *args, **kwargs):
         context = super(MealPlanDetailView, self).get_context_data(*args, **kwargs)
         instance = self.get_object()
+        context['days'] = PlanDay.objects.select_related().filter(meal_plan=instance)
+        return context
+
+    '''
+    def get_context_data(self, *args, **kwargs):
+        context = super(MealPlanDetailView, self).get_context_data(*args, **kwargs)
+        instance = self.get_object()
         context['meals'] = Meal.objects.select_related().filter(meal_plan=instance)
         return context
+    '''
+class DayDetailView(DetailView):
+    model = PlanDay
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(DayDetailView, self).get_context_data(*args, **kwargs)
+        instance = self.get_object()
+        context['meals'] = Meal.objects.select_related().filter(plan_day=instance)
+        return context
+
 
 class MealPlanCreateView(CreateView):
     model = MealPlan
@@ -89,12 +106,27 @@ class MealListView(ListView):
 class MealDetailView(DetailView):
     model = Meal
 
-def CreateMeal(request):
+    def get_context_data(self, *args, **kwargs):
+        context = super(MealDetailView, self).get_context_data(*args, **kwargs)
+        instance = self.get_object()
+        context['foods'] = Food.objects.select_related().filter(meal=instance)
+        return context
 
+
+
+@login_required
+def CreateMeal(request, plan_day):
     MealFormSet = modelformset_factory(Meal, fields=(
-        'meal_plan', 'image', 'title', 'description'
+        'plan_day', 'image', 'title', 'description'
     ))
-    form = MealFormSet(queryset=Meal.objects.none())
+    if request.method == 'POST':
+        form = MealFormSet(request.POST)
+        instances = form.save()
+
+        return redirect('day-detail', pk=plan_day)
+
+    form = MealFormSet(queryset=Meal.objects.none(), initial=[{'plan_day': plan_day}])
+
     return render(request, 'trainer/meal_form.html', {'form': form})
 
 
@@ -105,6 +137,22 @@ class MealCreateView(CreateView):
     def form_valid(self, form):
         form.instance.trainer = self.request.user.trainerprofile
         return super().form_valid(form)
+
+@login_required
+def CreateFood(request, meal):
+    FoodFormSet = modelformset_factory(Food, fields=(
+        'meal', 'image', 'title', 'description', 'protein', 'carbs', 'fat', 'calories'
+    ))
+    if request.method == 'POST':
+        form = FoodFormSet(request.POST)
+        instances = form.save()
+
+        return redirect('meal', pk=meal)
+
+    form = FoodFormSet(queryset=Food.objects.none(), initial=[{'meal': meal}])
+
+    return render(request, 'trainer/meal_form.html', {'form': form})
+
 
 class FoodListView(ListView):
     model = Food

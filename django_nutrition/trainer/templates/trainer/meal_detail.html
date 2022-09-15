@@ -18,6 +18,24 @@
       <p class="article-content">{{ object.trainer }}</p>
     </div>
   </article>
-  <button type="button" class="btn btn-outline-secondary"><a href="{% url 'food-create' %}">Add Food to Meal</a></button>
+  <button type="button" class="btn btn-outline-secondary"><a href="{% url 'food-create' object.pk %}">Add Food to Meal</a></button>
     <br /><br />
+    {% for food in foods %}
+    <article class="media content-section">
+        <img class="rounded-circle article-img" src="{{ food.image }}">
+        <div class="media-body">
+          <div class="article-metadata">
+            <a class="mr-2" href="#"> </a>
+            <small class="text-muted"></small>
+          </div>
+          <h2><a class="article-title" href="{% url 'food-detail' food.id %}">{{ food.title  }}</a></h2>
+          <p class="article-content">{{ food.title }}</p>
+          <p class="article-content">Calories: {{ food.calories }}</p>
+          <p class="article-content">Protein: {{ food.protein }}</p>
+          <p class="article-content">Carbs: {{ food.carbs }}</p>
+          <p class="article-content">Fat: {{ food.fat }}</p>
+        </div>
+      </article>
+
+{% endfor %}
 {% endblock content %}

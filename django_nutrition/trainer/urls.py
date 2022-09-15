@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import MealPlanListView, MealPlanDetailView, MealPlanCreateView, MealListView, MealDetailView, MealCreateView
-from .views import FoodListView, FoodDetailView, FoodCreateView, CreateMeal
+from .views import FoodListView, FoodDetailView, FoodCreateView, CreateMeal, CreateFood, DayDetailView
 from . import views
 
 urlpatterns = [
@@ -12,14 +12,16 @@ urlpatterns = [
     # Meals URLs
     path('meals', MealListView.as_view(), name='meals'),
     path('meal/<int:pk>/', MealDetailView.as_view(), name='meal'),
-    #path('meal/new/', MealCreateView.as_view(), name='meal-create'),
-    path('meal/new/', views.CreateMeal, name='create-meal'),
+    #path('meal/new/<int:meal_plan>', MealCreateView.as_view(), name='meal-create'),
+    path('meal/new/<int:plan_day>/<int:meal_plan>', views.CreateMeal, name='create-meal'),
+    # Day URLS
+    path('day/<int:pk>/', DayDetailView.as_view(), name='day-detail'),
     # Food URLs
     #path('foods', FoodListView.as_view(), name='foods'),
     #path('food/<int:pk>/',FoodDetailView.as_view(), name='food'),
-    path('food/new/', FoodCreateView.as_view(), name='food-create'),
+    path('food/new/<int:meal>', views.CreateFood, name='food-create'),
  
     path('foods/', views.get_foods, name = "get-foods"),
-    #path('foods/<int:id>/',views.food_detail, name = "food-detail")
+    path('food/<int:id>/', FoodDetailView.as_view(), name = "food-detail")
 
 ]
