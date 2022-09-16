@@ -124,9 +124,7 @@ def CreateMeal(request, plan_day):
         instances = form.save()
 
         return redirect('day-detail', pk=plan_day)
-
     form = MealFormSet(queryset=Meal.objects.none(), initial=[{'plan_day': plan_day}])
-
     return render(request, 'trainer/meal_form.html', {'form': form})
 
 
@@ -148,9 +146,7 @@ def CreateFood(request, meal):
         instances = form.save()
 
         return redirect('meal', pk=meal)
-
     form = FoodFormSet(queryset=Food.objects.none(), initial=[{'meal': meal}])
-
     return render(request, 'trainer/meal_form.html', {'form': form})
 
 
@@ -186,12 +182,7 @@ def get_foods(request):
             url = "https://edamam-food-and-grocery-database.p.rapidapi.com/parser"
 
             querystring = {"ingr":name}
-
-            headers = {
-                "X-RapidAPI-Key": "ad71cdf068msh5fad48d57871f97p18478ajsna0e3134a6355",
-                "X-RapidAPI-Host": "edamam-food-and-grocery-database.p.rapidapi.com"
-            }
-
+            headers = {}
             response = requests.request("GET", url, headers=headers, params=querystring)
             data = response.json()
             foods = data['hints']
