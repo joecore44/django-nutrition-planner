@@ -9,11 +9,12 @@ urlpatterns = [
     path('meal-plans', MealPlanListView.as_view(), name='meal-plans'),
     path('meal-plan/<int:pk>/', MealPlanDetailView.as_view(), name='meal-plan'),
     path('meal-plan/new/', MealPlanCreateView.as_view(), name='meal-plan-create'),
+    path('meal-plan/schedule/new/<int:meal_plan>/', views.CreateMealPlanSchedule, name='create-meal-plan-schedule'),
     # Meals URLs
     path('meals', MealListView.as_view(), name='meals'),
     path('meal/<int:pk>/', MealDetailView.as_view(), name='meal'),
     #path('meal/new/<int:meal_plan>', MealCreateView.as_view(), name='meal-create'),
-    path('meal/new/<int:plan_day>/<int:meal_plan>', views.CreateMeal, name='create-meal'),
+    path('meal/new/<int:plan_day>/', views.CreateMeal, name='create-meal'),
     # Day URLS
     path('day/<int:pk>/', DayDetailView.as_view(), name='day-detail'),
     # Food URLs

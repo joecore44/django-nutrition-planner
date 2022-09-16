@@ -52,7 +52,8 @@ class PlanDay(models.Model):
     day_number = models.IntegerField()
     #date = models.DateTimeField(null=True)
     def __str__(self):
-        day = 'Day ' + str(self.day_number)
+        
+        day = 'Meal Plan ' + str(self.meal_plan) + ' Day ' + str(self.day_number)
         return day
 
 class Meal(models.Model):

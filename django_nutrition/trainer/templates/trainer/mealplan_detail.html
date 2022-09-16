@@ -17,7 +17,7 @@
       <p class="article-content">{{ object.description }}</p>
     </div>
   </article>
-  <button type="button" class="btn btn-outline-secondary"><a href=" url 'create-meal' object.id ">Add Meal Schedule to Plan</a></button>
+  <button type="button" class="btn btn-outline-secondary"><a href="{% url 'create-meal-plan-schedule' object.id %}">Add Meal Schedule to Plan</a></button>
     <br /><br />
     <div class="row">
     {% for day in days %}
@@ -28,8 +28,6 @@
           <p class="card-title">{{ day.day_number }}</p>
           <p class="card-text">Thu, 18 Aug</p>
           </a>
-          
-          
         </div>
       </div>
     </div> 

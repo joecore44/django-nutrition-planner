@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
-<button type="button" class="btn btn-outline-secondary"><a href="{% url 'create-meal' object.pk object.meal_plan.id %}">Add Meal</a></button>
+<button type="button" class="btn btn-outline-secondary"><a href="{% url 'create-meal' object.pk %}">Add Meal</a></button>
     <br /><br />
     {% for meal in meals %}
     <article class="media content-section">

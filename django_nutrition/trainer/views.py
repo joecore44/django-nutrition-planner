@@ -70,13 +70,6 @@ class MealPlanDetailView(DetailView):
         context['days'] = PlanDay.objects.select_related().filter(meal_plan=instance)
         return context
 
-    '''
-    def get_context_data(self, *args, **kwargs):
-        context = super(MealPlanDetailView, self).get_context_data(*args, **kwargs)
-        instance = self.get_object()
-        context['meals'] = Meal.objects.select_related().filter(meal_plan=instance)
-        return context
-    '''
 class DayDetailView(DetailView):
     model = PlanDay
 
@@ -112,6 +105,36 @@ class MealDetailView(DetailView):
         context['foods'] = Food.objects.select_related().filter(meal=instance)
         return context
 
+class MealPlanScheduleCreate(CreateView):
+    model = MealPlan
+    fields = ['image', 'title', 'description', 'free_plan',
+     'diet_type', 'meal_type']
+
+    def form_valid(self, form):
+        form.instance.trainer = self.request.user.trainerprofile
+        return super().form_valid(form)
+
+@login_required
+def CreateMealPlanSchedule(request, meal_plan):
+    ScheduleFormSet = modelformset_factory(PlanDay, fields=(
+        'day_number', 'meal_plan',
+    ))
+    if request.method == 'POST':
+        form = ScheduleFormSet(request.POST)
+        num = request.POST['form-0-day_number']
+        plan = MealPlan.objects.get(id=meal_plan)
+        print('num ', num)
+        for i in range(int(num)):
+            i = i + 1
+            object = PlanDay(meal_plan=plan, day_number=i)
+            object.save()
+            print(i)
+            
+        #instances = form.save()
+
+        return redirect('meal-plan', pk=meal_plan)
+    form = ScheduleFormSet(queryset=PlanDay.objects.none(), initial=[{'meal_plan': meal_plan}])
+    return render(request, 'trainer/meal_form.html', {'form': form})
 
 
 @login_required
