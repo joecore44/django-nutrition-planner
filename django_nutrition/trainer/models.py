@@ -50,7 +50,7 @@ class PlanDay(models.Model):
     meal_plan = models.ForeignKey(MealPlan,
     on_delete=models.CASCADE)
     day_number = models.IntegerField()
-    #date = models.DateTimeField(null=True)
+    date = models.DateField(null=True)
     def __str__(self):
         
         day = 'Meal Plan ' + str(self.meal_plan) + ' Day ' + str(self.day_number)

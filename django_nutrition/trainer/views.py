@@ -8,6 +8,7 @@ from .forms import TrainerRegisterForm, TrainerUpdateForm, TrainerProfileUpdateF
 from .models import MealPlan, PlanDay, Meal, Food
 from django.forms import modelformset_factory
 import requests
+import datetime
 
 
 def home(request):
@@ -117,20 +118,21 @@ class MealPlanScheduleCreate(CreateView):
 @login_required
 def CreateMealPlanSchedule(request, meal_plan):
     ScheduleFormSet = modelformset_factory(PlanDay, fields=(
-        'day_number', 'meal_plan',
+        'day_number', 'meal_plan', 'date',
     ))
     if request.method == 'POST':
         form = ScheduleFormSet(request.POST)
         num = request.POST['form-0-day_number']
         plan = MealPlan.objects.get(id=meal_plan)
-        print('num ', num)
+        start_date = request.POST['form-0-date']
+
         for i in range(int(num)):
             i = i + 1
+            #start_date.date() + datetime.timedelta(days=1)
+            print(first_date)
             object = PlanDay(meal_plan=plan, day_number=i)
-            object.save()
-            print(i)
-            
-        #instances = form.save()
+            #object.save()
+
 
         return redirect('meal-plan', pk=meal_plan)
     form = ScheduleFormSet(queryset=PlanDay.objects.none(), initial=[{'meal_plan': meal_plan}])
