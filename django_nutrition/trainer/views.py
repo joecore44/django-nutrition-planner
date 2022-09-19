@@ -1,3 +1,4 @@
+from time import strptime
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.views.generic import ListView, DetailView, CreateView
@@ -8,7 +9,7 @@ from .forms import TrainerRegisterForm, TrainerUpdateForm, TrainerProfileUpdateF
 from .models import MealPlan, PlanDay, Meal, Food
 from django.forms import modelformset_factory
 import requests
-import datetime
+from datetime import datetime, date, timedelta
 
 
 def home(request):
@@ -124,14 +125,17 @@ def CreateMealPlanSchedule(request, meal_plan):
         form = ScheduleFormSet(request.POST)
         num = request.POST['form-0-day_number']
         plan = MealPlan.objects.get(id=meal_plan)
-        start_date = request.POST['form-0-date']
-
+        date_string = request.POST['form-0-date']
+        start_date = datetime.strptime(date_string, '%m/%d/%Y')
+        object = PlanDay(meal_plan=plan, day_number=1, date=start_date)
+        print(start_date)
         for i in range(int(num)):
             i = i + 1
-            #start_date.date() + datetime.timedelta(days=1)
-            print(first_date)
-            object = PlanDay(meal_plan=plan, day_number=i)
-            #object.save()
+            start_date = start_date + timedelta(days=1)
+
+            object = PlanDay(meal_plan=plan, day_number=i, date=start_date)
+            print(start_date)
+            object.save()
 
 
         return redirect('meal-plan', pk=meal_plan)
