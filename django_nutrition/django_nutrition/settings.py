@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'django.contrib.auth',
     'customer.apps.CustomerConfig',
     'trainer.apps.TrainerConfig',
+    'bootstrap4',
     'crispy_forms',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -44,6 +45,8 @@ INSTALLED_APPS = [
     'website.apps.WebsiteConfig',
     
 ]
+
+CRISPY_TEMPLATE_PATH = 'bootstrap4'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -131,8 +134,6 @@ MEDIA_URL = '/media/'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-CRISPY_TEMPLATE_PATH = 'bootstrap4'
 
 LOGIN_REDIRECT_URL = '/home'
 LOGIN_URL = 'login'

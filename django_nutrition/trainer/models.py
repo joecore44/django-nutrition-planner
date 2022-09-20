@@ -67,12 +67,16 @@ class Meal(models.Model):
     description = models.TextField()
     image = models.ImageField(default='default.jpg',
         upload_to='trainer_media/meals')
+    protein = models.FloatField(null=True, default=0)
+    carbs = models.FloatField(null=True, default=0)
+    fat = models.FloatField(null=True, default=0)
+    calories = models.FloatField(null=True, default=0)
 
     def get_absolute_url(self):
         return reverse('meal', kwargs={'pk': self.pk})
 
     def __str__(self):
-            return self.title
+        return self.title
 
 class Food(models.Model):
     # TODO figure out what to do about 

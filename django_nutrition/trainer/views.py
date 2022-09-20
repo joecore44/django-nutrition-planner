@@ -104,6 +104,7 @@ class MealDetailView(DetailView):
     def get_context_data(self, *args, **kwargs):
         context = super(MealDetailView, self).get_context_data(*args, **kwargs)
         instance = self.get_object()
+        print(instance)
         context['foods'] = Food.objects.select_related().filter(meal=instance)
         return context
 
@@ -137,11 +138,9 @@ def CreateMealPlanSchedule(request, meal_plan):
             print(start_date)
             object.save()
 
-
         return redirect('meal-plan', pk=meal_plan)
     form = ScheduleFormSet(queryset=PlanDay.objects.none(), initial=[{'meal_plan': meal_plan}])
     return render(request, 'trainer/meal_form.html', {'form': form})
-
 
 @login_required
 def CreateMeal(request, plan_day):
@@ -178,7 +177,6 @@ def CreateFood(request, meal):
     form = FoodFormSet(queryset=Food.objects.none(), initial=[{'meal': meal}])
     return render(request, 'trainer/meal_form.html', {'form': form})
 
-
 class FoodListView(ListView):
     model = Food
     context = {
@@ -190,7 +188,6 @@ class FoodDetailView(DetailView):
     model = Food
 
 class FoodCreateView(CreateView):
- 
     model = Food
     fields = ['meal', 'image', 'title', 'description', 'protein', 'carbs', 'fat', 'calories']
     #success_url = '/'
@@ -232,8 +229,7 @@ def get_foods(request):
                 'image': image
                 }
                 food_list.append(items)
-            
-
+             
             return render(request, 'trainer/food.html', {'food_data': food_list})
         else:
             return render(request, 'trainer/food.html')

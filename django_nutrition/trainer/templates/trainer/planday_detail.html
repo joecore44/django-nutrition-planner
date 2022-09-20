@@ -4,14 +4,17 @@
     <br /><br />
     {% for meal in meals %}
     <article class="media content-section">
-      <img class="rounded-circle article-img" src="">
+      <img class="rounded-circle article-img" src="/media/{{ meal.image }}">
       <div class="media-body">
-        <div class="article-metadata">
-          <a class="mr-2" href="#"> </a>
-          <small class="text-muted"></small>
-        </div>
         <h2><a class="article-title" href="{% url 'meal' meal.id %}">{{ meal.title }}</a></h2>
         <p class="article-content">{{ meal.description }}</p>
+        
+        <div class="article-metadata">
+          <medium class="text-muted">Protein: {{ meal.protein }}</medium>
+          <medium class="text-muted">Carbs: {{ meal.carbs }}</medium>
+          <medium class="text-muted">Fat: {{ meal.fat }}</medium>
+          <medium class="text-muted">Calories: {{ meal.calories }}</medium>
+        </div> 
       </div>
     </article>
     {% endfor %}

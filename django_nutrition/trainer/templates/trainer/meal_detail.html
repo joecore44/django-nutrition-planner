@@ -4,8 +4,7 @@
     <img class="rounded-circle article-img" src="{{ object.image.url }}">
     <div class="media-body">
       <div class="article-metadata">
-        <a class="mr-2" href="#">{{ object.trainer }}</a>
-        <small class="text-muted">Date</small>
+        <small class="text-muted">{{ object.meal_plan }}</small>
         {% if object.trainer == user %}
           <div>
             <a class="btn btn-secondary btn-sm mt-1 mb-1" href="">Update</a>
@@ -13,9 +12,8 @@
           </div>
         {% endif %}
       </div>
-      <h2 class="article-title">{{ object.title }} {{ user.first_name }}</h2>
+      <h2 class="article-title">{{ object.title }}</h2>
       <p class="article-content">{{ object.description }}</p>
-      <p class="article-content">{{ object.trainer }}</p>
     </div>
   </article>
   <button type="button" class="btn btn-outline-secondary"><a href="{% url 'food-create' object.pk %}">Add Food to Meal</a></button>
@@ -29,11 +27,13 @@
             <small class="text-muted"></small>
           </div>
           <h2><a class="article-title" href="{% url 'food-detail' food.id %}">{{ food.title  }}</a></h2>
-          <p class="article-content">{{ food.title }}</p>
-          <p class="article-content">Calories: {{ food.calories }}</p>
-          <p class="article-content">Protein: {{ food.protein }}</p>
-          <p class="article-content">Carbs: {{ food.carbs }}</p>
-          <p class="article-content">Fat: {{ food.fat }}</p>
+          <p class="article-content">{{ food.description }}</p>
+          <div class="article-metadata">
+            <medium class="text-muted">Protein: {{ food.protein }}</medium>
+            <medium class="text-muted">Carbs: {{ food.carbs }}</medium>
+            <medium class="text-muted">Fat: {{ food.fat }}</medium>
+            <medium class="text-muted">Calories: {{ food.calories }}</medium>
+          </div> 
         </div>
       </article>
 
